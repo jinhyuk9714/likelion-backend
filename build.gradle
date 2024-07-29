@@ -6,7 +6,7 @@ plugins {
 
 group = 'backend'
 version = '0.0.1-SNAPSHOT'
-//ddddsfdfjlljk
+//ddddsf21414214
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
