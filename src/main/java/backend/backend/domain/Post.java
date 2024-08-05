@@ -1,7 +1,6 @@
-package backend.backend.post.domain.entity;
+package backend.backend.domain;
 
-import backend.backend.comment.domain.entity.Comment;
-import backend.backend.domain.Member;
+
 import backend.backend.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,6 +12,8 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.util.List;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,9 +21,9 @@ import java.util.List;
 @SQLDelete(sql = "UPDATE post SET active_status = 'DELETED' WHERE post_id = ? AND active_status <> 'DELETED'")
 @SQLRestriction("active_status <> 'DELETED'")
 @Entity(name = "post")
-public class Post extends BaseEntity {
+public static class Post extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "post_id")
     private Long id;
 
