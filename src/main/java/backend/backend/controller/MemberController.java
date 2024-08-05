@@ -1,10 +1,12 @@
 package backend.backend.controller;
 
 import backend.backend.domain.dto.memberDto.MemberRequestDto;
+import backend.backend.domain.dto.memberDto.MemberResponseDto;
 import backend.backend.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +22,16 @@ public class MemberController {
     @ResponseStatus(HttpStatus.OK)
     public void signUp(@Valid @RequestBody MemberRequestDto.SignUpDto memberSignUpDto) throws Exception {
         memberService.signUp(memberSignUpDto);
+    }
+
+    /**
+     * 내정보조회
+     */
+    @GetMapping("/member")
+    public ResponseEntity getMyInfo() throws Exception {
+
+        MemberResponseDto.InfoDto info = memberService.getMyInfo();
+        return new ResponseEntity(info, HttpStatus.OK);
     }
 }
 
