@@ -39,4 +39,19 @@ public static class Post extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private String title;
+
+
+    public Post(PostRequestDto postRequestDto, Member member) {
+        this.member = member;
+        this.content = postRequestDto.getContent();
+        this.title = postRequestDto.getTitle();
+    }
+
+    public void update(PostRequestDto postRequestDto){
+        this.title = postRequestDto.getTitle();
+        this.content = postRequestDto.getContent();
+    }
+
 }

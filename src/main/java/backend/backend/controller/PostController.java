@@ -5,6 +5,14 @@ import backend.backend.global.response.ApiResponse;
 import backend.backend.service.LikesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import backend.backend.Service.PostService;
+import backend.backend.domain.dto.Response;
+import backend.backend.domain.dto.postDto.PostRequestDto;
+import backend.backend.domain.dto.postDto.PostResponseDto;
+import backend.backend.global.util.security.SecurityUtil;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 
 @RestController
 @RequiredArgsConstructor
@@ -12,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final LikesService likesService;
-
+    private final PostService postService;
     @PostMapping("/{id}/like")
     public ApiResponse<Void> likePost(@PathVariable Long id, @RequestBody LikesRequestDto likesRequestDto) {
         likesService.likePost(id, likesRequestDto);
@@ -23,5 +31,31 @@ public class PostController {
     public ApiResponse<Void> unlikePost(@PathVariable Long id, @RequestBody LikesRequestDto likesRequestDto) {
         likesService.unlikePost(id, likesRequestDto);
         return ApiResponse.success(null, "좋아요가 성공적으로 취소되었습니다.");
+
     }
-}
+
+    @PostMapping()
+    public ResponseEntity<Response<PostResponseDto>> createPost(@Validated @RequestBody PostRequestDto requestDto){
+        String memberEmail = SecurityUtil.getLoginEmail();
+        PostResponseDto postResponseDto = postService.createPost(requestDto, memberEmail);
+        return ResponseEntity.ok(Response.ok(postResponseDto));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Response<PostResponseDto>> getPost(@PathVariable Long postId){
+        return ResponseEntity.ok(Response.ok(postService.getPost(postId)));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<PostResponseDto>> updatePost(@PathVariable Long postId ,
+                                                                @RequestBody PostRequestDto requestDto){
+        String memberEmail = SecurityUtil.getLoginEmail();
+        return ResponseEntity.ok(Response.ok(postService.updatePost(postId, requestDto, memberEmail)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response<Void>> deletePost(@PathVariable Long postId){
+        String memberEmail = SecurityUtil.getLoginEmail();
+        return ResponseEntity.ok(postService.deletePost(postId, memberEmail));
+
+    }
