@@ -1,6 +1,9 @@
 package backend.backend.domain.common;
 
+import backend.backend.domain.ActiveStatus;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,4 +22,14 @@ public abstract class BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    private ActiveStatus activeStatus = ActiveStatus.ACTIVE;
+
+    //softdelete 된 후 다시 활성 상태로 업데이트
+    public void updateActiveStatus() {
+        if (this.activeStatus == ActiveStatus.DELETED) {
+            this.activeStatus = ActiveStatus.ACTIVE;
+        }
+    }
 }
