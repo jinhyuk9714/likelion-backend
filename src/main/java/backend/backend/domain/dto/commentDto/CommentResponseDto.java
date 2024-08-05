@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 public class CommentResponseDto extends CommentRequestDto {
     private Long id;
-    private String emogi;
+    private String emoji;
     private LocalDateTime createdAt;
     private LocalDateTime updateAt;
     private String content;
@@ -24,7 +24,7 @@ public class CommentResponseDto extends CommentRequestDto {
     // Entity -> DTO
     public CommentResponseDto(Comment comment, List<CommentResponseDto> commentResponseDtoList){
         this.id             = comment.getId();
-        this.emogi     = comment.getMember().getEmoji();
+        this.emoji          = comment.getMember().getEmoji();
         this.nickname       = comment.getNickname();
         this.content        = comment.getContent();
         this.depth          = comment.getDepth();
@@ -35,7 +35,7 @@ public class CommentResponseDto extends CommentRequestDto {
 
     public CommentResponseDto(Comment comment, Long id){
         this.id             = comment.getId();
-        this.emogi     = comment.getMember().getEmoji();
+        this.emoji          = comment.getMember().getEmoji();
         this.nickname       = comment.getNickname();
         this.content        = comment.getContent();
         this.parentId       = id;
@@ -47,7 +47,7 @@ public class CommentResponseDto extends CommentRequestDto {
 
     public CommentResponseDto(Comment comment){
         this.id             = comment.getId();
-        this.emogi    = comment.getMember().getEmoji();
+        this.emoji          = comment.getMember().getEmoji();
         this.nickname       = comment.getNickname();
         this.content        = comment.getContent();
         this.depth          = comment.getDepth();

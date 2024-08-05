@@ -29,12 +29,11 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
 
-
-    public CommentResponseDto createComment(Long postId, Long commentId, CommentRequestDto requestDto, Long userId) {
+    public CommentResponseDto createComment(Long postId, Long commentId, CommentRequestDto requestDto, String memberEmail) {
 
         Post post = postRepository.findById(postId).orElseThrow(() -> new BusinessException(ResponseCode.CMT_POST_NOT_FOUND));
 
-        Member member = memberRepository.findById(userId).orElseThrow(() -> new BusinessException(ResponseCode.CMT_AUTHENTICATION_FAIL));
+        Member member = memberRepository.findByEmail(memberEmail).orElseThrow(() -> new BusinessException(ResponseCode.CMT_AUTHENTICATION_FAIL));
 
         Comment comment;
         if (commentId == 0) {
@@ -66,35 +65,35 @@ public class CommentService {
             childrenDtoList.add(childDto);
         }
 
-        return  new CommentResponseDto(comment, childrenDtoList);
+        return new CommentResponseDto(comment, childrenDtoList);
     }
 
 
-
-    public CommentResponseDto updateComment(Long id, CommentRequestDto requestDto, Long userId) {
+    public CommentResponseDto updateComment(Long id, CommentRequestDto requestDto, String memberEmail) {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new BusinessException(ResponseCode.CMT_NOT_FOUND)
         );
 
-        if(comment.getMember().getId().equals(userId)){
+        if (comment.getMember().getEmail().equals(memberEmail)) {
             comment.update(requestDto);
-        }else{
+        } else {
             throw new BusinessException(ResponseCode.CMT_AUTHENTICATION_FAIL);
         }
         return new CommentResponseDto(comment);
     }
 
 
-    public Response<Void> deleteComment(Long id, Long userId) {
+    public Response<Void> deleteComment(Long id, String memberEmail) {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new BusinessException(ResponseCode.CMT_NOT_FOUND)
         );
-        if(comment.getMember().getId().equals(userId)){
+        if (comment.getMember().getEmail().equals(memberEmail)) {
             commentRepository.deleteById(id);
-        }else {
+        } else {
             throw new BusinessException(ResponseCode.CMT_AUTHENTICATION_FAIL);
         }
 
         return Response.ok();
     }
+}
 
