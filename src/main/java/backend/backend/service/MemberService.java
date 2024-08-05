@@ -1,9 +1,7 @@
-package backend.backend.sevice;
+package backend.backend.service;
 
 import backend.backend.domain.Member;
 import backend.backend.domain.dto.memberDto.MemberRequestDto;
-import backend.backend.domain.dto.memberDto.MemberResponseDto;
-import backend.backend.global.util.security.SecurityUtil;
 import backend.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

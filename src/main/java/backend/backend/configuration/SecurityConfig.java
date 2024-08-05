@@ -6,7 +6,7 @@ import backend.backend.global.login.filter.JsonUsernamePasswordAuthenticationFil
 import backend.backend.global.login.handler.LoginFailureHandler;
 import backend.backend.global.login.handler.LoginSuccessJWTProvideHandler;
 import backend.backend.repository.MemberRepository;
-import backend.backend.sevice.LoginService;
+import backend.backend.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
