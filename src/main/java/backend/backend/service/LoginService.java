@@ -1,4 +1,4 @@
-package backend.backend.sevice;
+package backend.backend.service;
 
 import backend.backend.domain.Member;
 import backend.backend.repository.MemberRepository;

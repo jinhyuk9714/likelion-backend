@@ -1,7 +1,7 @@
 package backend.backend.controller;
 
 import backend.backend.domain.dto.memberDto.MemberRequestDto;
-import backend.backend.sevice.MemberService;
+import backend.backend.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
