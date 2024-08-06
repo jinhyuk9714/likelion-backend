@@ -1,4 +1,4 @@
-package backend.backend.Service;
+package backend.backend.service;
 
 import backend.backend.domain.Comment;
 import backend.backend.domain.Member;
@@ -10,6 +10,7 @@ import backend.backend.domain.dto.commentDto.CommentResponseDto;
 import backend.backend.domain.dto.postDto.PostRequestDto;
 import backend.backend.domain.dto.postDto.PostResponseDto;
 import backend.backend.repository.CommentRepository;
+import backend.backend.repository.LikesRepository;
 import backend.backend.repository.MemberRepository;
 import backend.backend.repository.PostRepository;
 import lombok.RequiredArgsConstructor;

@@ -4,28 +4,19 @@ import backend.backend.domain.Meeting;
 import backend.backend.domain.enums.MeetingCategory;
 import backend.backend.domain.enums.Week;
 import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 
 public class MeetingRequestDTO {
 
     @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public record MeetingGetDto (@Nullable
                                  MeetingCategory category){
 
     }
 
     @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public record MeetingPostDto (String title,
                                   MeetingCategory category,
                                   Week week,

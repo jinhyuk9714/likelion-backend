@@ -27,7 +27,7 @@ public class LikesService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
 
-        if (likesRepository.findByUserAndPost(member, post).isPresent()) {
+        if (likesRepository.findByMemberAndPost(member, post).isPresent()) {
             throw new RuntimeException("이미 이 게시글을 좋아요했습니다.");
         }
 
@@ -44,7 +44,7 @@ public class LikesService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
 
-        Likes like = likesRepository.findByUserAndPost(member, post)
+        Likes like = likesRepository.findByMemberAndPost(member, post)
                 .orElseThrow(() -> new RuntimeException("좋아요를 찾을 수 없습니다."));
 
         likesRepository.delete(like);

@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
@@ -34,6 +35,7 @@ public class SecurityConfig {
     private final MemberRepository memberRepository;
     private final JwtService jwtService;
 
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.httpBasic(HttpBasicConfigurer::disable)
                 .formLogin(FormLoginConfigurer::disable)
@@ -42,7 +44,7 @@ public class SecurityConfig {
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/login", "/signUp", "/", "/test").permitAll()
+                                .requestMatchers("/api/login", "/api/signUp", "/swagger-ui/*").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterAfter(jsonUsernamePasswordLoginFilter(), LogoutFilter.class)
@@ -92,5 +94,15 @@ public class SecurityConfig {
         JwtAuthenticationProcessingFilter jsonUsernamePasswordLoginFilter = new JwtAuthenticationProcessingFilter(jwtService, memberRepository);
 
         return jsonUsernamePasswordLoginFilter;
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers("/h2-console/**",
+                "/favicon.ico",
+                "/error",
+                "/swagger-ui/**",
+                "/swagger-resources/**",
+                "/v3/api-docs/**");
     }
 }
