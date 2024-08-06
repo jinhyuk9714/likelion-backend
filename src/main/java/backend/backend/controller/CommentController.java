@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private final CommentService commentService;
 
-    @PostMapping("/{id}/comment/{comment_id}") // 뒤쪽 comment_id는 부모 댓글일 경우 0으로 입력
+    @PostMapping("/post/{id}/comment/{comment_id}") // 뒤쪽 comment_id는 부모 댓글일 경우 0으로 입력
     public ResponseEntity<Response<CommentResponseDto>> createComment(@Validated @PathVariable Long id, @PathVariable(required = false) Long comment_id,
                                                                       @RequestBody CommentRequestDto requestDto){
         String memberEmail = SecurityUtil.getLoginEmail();
@@ -39,7 +39,5 @@ public class CommentController {
     @GetMapping("comment/{id}")
     public ResponseEntity<Response<CommentResponseDto>> getComment(@PathVariable Long id) {
         return ResponseEntity.ok(Response.ok(commentService.getComment(id)));
-
-
     }
 }

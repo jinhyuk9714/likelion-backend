@@ -3,11 +3,7 @@ package backend.backend.domain;
 import backend.backend.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 

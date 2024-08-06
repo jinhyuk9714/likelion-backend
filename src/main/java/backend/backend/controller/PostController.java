@@ -1,18 +1,17 @@
 package backend.backend.controller;
 
-import backend.backend.domain.dto.likesDto.LikesRequestDto;
-import backend.backend.global.response.ApiResponse;
-import backend.backend.service.LikesService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import backend.backend.Service.PostService;
 import backend.backend.domain.dto.Response;
+import backend.backend.domain.dto.likesDto.LikesRequestDto;
 import backend.backend.domain.dto.postDto.PostRequestDto;
 import backend.backend.domain.dto.postDto.PostResponseDto;
+import backend.backend.global.response.ApiResponse;
 import backend.backend.global.util.security.SecurityUtil;
+import backend.backend.service.LikesService;
+import backend.backend.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,3 +58,4 @@ public class PostController {
         return ResponseEntity.ok(postService.deletePost(postId, memberEmail));
 
     }
+}
