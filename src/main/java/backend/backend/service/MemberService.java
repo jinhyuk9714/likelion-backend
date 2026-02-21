@@ -43,6 +43,7 @@ public class MemberService {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail())
                 .orElseThrow(() -> new BusinessException(ResponseCode.MBR_NOT_FOUND));
         return MemberResponseDto.InfoDto.builder()
+                .id(member.getId())
                 .email(member.getEmail())
                 .nickName(member.getNickName())
                 .emoji(member.getEmoji())

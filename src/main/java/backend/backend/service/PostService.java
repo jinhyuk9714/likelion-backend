@@ -14,6 +14,8 @@ import backend.backend.repository.LikesRepository;
 import backend.backend.repository.MemberRepository;
 import backend.backend.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,15 @@ public class PostService {
     private final MemberRepository memberRepository;
     private final LikesRepository likesRepository;
     private final CommentRepository commentRepository;
+
+    public Page<PostResponseDto> getPostList(Pageable pageable) {
+        Page<Post> posts = postRepository.findAll(pageable);
+        return posts.map(post -> {
+            int likeCount = likesRepository.countLikesByPostId(post.getId());
+            int commentCount = commentRepository.countCommentByPostId(post.getId());
+            return new PostResponseDto(post, commentCount, likeCount);
+        });
+    }
 
     @Transactional
     public PostResponseDto createPost(PostRequestDto postRequestDto, String memberEmail) {

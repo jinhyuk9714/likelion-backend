@@ -8,6 +8,9 @@ import backend.backend.global.util.security.SecurityUtil;
 import backend.backend.service.LikesService;
 import backend.backend.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,13 @@ public class PostController {
 
     private final LikesService likesService;
     private final PostService postService;
+
+    @GetMapping
+    public ResponseEntity<Response<Page<PostResponseDto>>> getPostList(
+            @PageableDefault(size = 10, sort = "id", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(Response.ok(postService.getPostList(pageable)));
+    }
+
     @PostMapping("/{id}/like")
     public ResponseEntity<Response<Void>> likePost(@PathVariable Long id, @RequestBody LikesRequestDto likesRequestDto) {
         likesService.likePost(id, likesRequestDto);
