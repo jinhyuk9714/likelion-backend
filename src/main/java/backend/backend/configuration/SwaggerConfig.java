@@ -28,8 +28,8 @@ public class SwaggerConfig {
     }
     private Info apiInfo() {
         return new Info()
-                .title("API Test") // API의 제목
-                .description("Let's practice Swagger UI") // API에 대한 설명
-                .version("1.0.0"); // API의 버전
+                .title("LikeLion Backend API")
+                .description("멋쟁이사자처럼 커뮤니티 백엔드 API - 게시글, 댓글, 좋아요, 모임 기능 제공")
+                .version("1.0.0");
     }
 }
