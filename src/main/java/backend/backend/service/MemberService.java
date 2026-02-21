@@ -1,6 +1,8 @@
 package backend.backend.service;
 
 import backend.backend.domain.Member;
+import backend.backend.domain.common.BusinessException;
+import backend.backend.domain.common.ResponseCode;
 import backend.backend.domain.dto.memberDto.MemberRequestDto;
 import backend.backend.domain.dto.memberDto.MemberResponseDto;
 import backend.backend.global.util.security.SecurityUtil;
@@ -20,19 +22,26 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void signUp(MemberRequestDto.SignUpDto memberSignUpDto) throws Exception {
-        Member member = memberSignUpDto.toEntity();
+    @Transactional
+    public void signUp(MemberRequestDto.SignUpDto memberSignUpDto) {
+        Member member = Member.builder()
+                .email(memberSignUpDto.email())
+                .password(memberSignUpDto.password())
+                .nickName(memberSignUpDto.nickName())
+                .emoji(memberSignUpDto.emoji())
+                .build();
         member.encodePassword(passwordEncoder);
 
         if(memberRepository.findByEmail(memberSignUpDto.email()).isPresent()){
-            throw new Exception("이미 존재하는 아이디입니다.");
+            throw new BusinessException(ResponseCode.MBR_ALREADY_EXISTS);
         }
 
         memberRepository.save(member);
     }
 
     public MemberResponseDto.InfoDto getMyInfo() {
-        Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow();
+        Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail())
+                .orElseThrow(() -> new BusinessException(ResponseCode.MBR_NOT_FOUND));
         return MemberResponseDto.InfoDto.builder()
                 .email(member.getEmail())
                 .nickName(member.getNickName())

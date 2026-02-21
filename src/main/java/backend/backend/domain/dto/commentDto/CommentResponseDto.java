@@ -10,11 +10,11 @@ import java.util.List;
 
 @Setter
 @Getter
-public class CommentResponseDto extends CommentRequestDto {
+public class CommentResponseDto {
     private Long id;
     private String emoji;
     private LocalDateTime createdAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
     private String content;
     private String nickname;
     private Long parentId;
@@ -30,7 +30,7 @@ public class CommentResponseDto extends CommentRequestDto {
         this.depth          = comment.getDepth();
         this.createdAt      = comment.getCreatedAt();
         this.children       = commentResponseDtoList;
-        this.updateAt       = comment.getUpdatedAt();
+        this.updatedAt       = comment.getUpdatedAt();
     }
 
     public CommentResponseDto(Comment comment, Long id){
@@ -41,7 +41,7 @@ public class CommentResponseDto extends CommentRequestDto {
         this.parentId       = id;
         this.depth          = comment.getDepth();
         this.createdAt      = comment.getCreatedAt();
-        this.updateAt       = comment.getUpdatedAt();
+        this.updatedAt       = comment.getUpdatedAt();
 
     }
 
@@ -52,7 +52,7 @@ public class CommentResponseDto extends CommentRequestDto {
         this.content        = comment.getContent();
         this.depth          = comment.getDepth();
         this.createdAt      = comment.getCreatedAt();
-        this.updateAt       = comment.getUpdatedAt();
+        this.updatedAt       = comment.getUpdatedAt();
     }
 
 }

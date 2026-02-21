@@ -7,7 +7,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "likes")
+@Table(name = "likes", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_likes_member_post", columnNames = {"member_id", "post_id"})
+})
 public class Likes {
 
     @Id

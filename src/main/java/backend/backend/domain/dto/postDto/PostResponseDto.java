@@ -22,7 +22,7 @@ public class PostResponseDto {
     private String emoji;
     private String content;
     private LocalDateTime createdAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
     private List<CommentResponseDto> commentList = new ArrayList<>();
     private int likeCount;
     private int commentCount;
@@ -31,7 +31,7 @@ public class PostResponseDto {
         this.id = post.getId();
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
-        this.updateAt = post.getUpdatedAt();
+        this.updatedAt = post.getUpdatedAt();
         this.nickName = post.getMember().getNickName();
 
     }
@@ -39,7 +39,7 @@ public class PostResponseDto {
         this.id = post.getId();
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
-        this.updateAt = post.getUpdatedAt();
+        this.updatedAt = post.getUpdatedAt();
         this.nickName = post.getMember().getNickName();
         this.likeCount = likeCount;
         this.commentCount = commentCount;
@@ -51,7 +51,7 @@ public class PostResponseDto {
         this.id = post.getId();
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
-        this.updateAt = post.getUpdatedAt();
+        this.updatedAt = post.getUpdatedAt();
         this.nickName = post.getMember().getNickName();
         this.likeCount = likeCount;
         this.commentCount = commentCount;

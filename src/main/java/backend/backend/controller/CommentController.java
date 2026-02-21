@@ -7,12 +7,11 @@ import backend.backend.global.util.security.SecurityUtil;
 import backend.backend.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/api")
 public class CommentController {
     private final CommentService commentService;

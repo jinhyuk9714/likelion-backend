@@ -21,7 +21,7 @@ public class MemberController {
      */
     @PostMapping("/signUp")
     @ResponseStatus(HttpStatus.OK)
-    public void signUp(@Valid @RequestBody MemberRequestDto.SignUpDto memberSignUpDto) throws Exception {
+    public void signUp(@Valid @RequestBody MemberRequestDto.SignUpDto memberSignUpDto) {
         memberService.signUp(memberSignUpDto);
     }
 
@@ -29,7 +29,7 @@ public class MemberController {
      * 내정보조회
      */
     @GetMapping("/member")
-    public ResponseEntity getMyInfo() throws Exception {
+    public ResponseEntity getMyInfo() {
 
         MemberResponseDto.InfoDto info = memberService.getMyInfo();
         return new ResponseEntity(info, HttpStatus.OK);

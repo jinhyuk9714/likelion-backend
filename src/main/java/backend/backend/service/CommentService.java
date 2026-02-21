@@ -11,7 +11,7 @@ import backend.backend.domain.dto.commentDto.CommentResponseDto;
 import backend.backend.repository.CommentRepository;
 import backend.backend.repository.MemberRepository;
 import backend.backend.repository.PostRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class CommentService {
 
         Comment comment;
         if (commentId == 0) {
-            comment = commentRepository.save(new Comment(requestDto, member.getNickName(), post, member));
+            comment = commentRepository.save(new Comment(requestDto.getContent(), member.getNickName(), post, member));
         } else {
             Comment childComment = commentRepository.findById(commentId).orElseThrow(
                     () -> new BusinessException(ResponseCode.CMT_PARENT_NOT_FOUND));
@@ -46,7 +46,7 @@ public class CommentService {
                 throw new BusinessException(ResponseCode.CMT_PARENT_NOT_FOUND);
             }
 
-            comment = commentRepository.save(new Comment(requestDto, member.getNickName(), post, member, childComment));
+            comment = commentRepository.save(new Comment(requestDto.getContent(), member.getNickName(), post, member, childComment));
         }
         return new CommentResponseDto(comment, commentId);
     }
@@ -75,7 +75,7 @@ public class CommentService {
         );
 
         if (comment.getMember().getEmail().equals(memberEmail)) {
-            comment.update(requestDto);
+            comment.update(requestDto.getContent());
         } else {
             throw new BusinessException(ResponseCode.CMT_AUTHENTICATION_FAIL);
         }

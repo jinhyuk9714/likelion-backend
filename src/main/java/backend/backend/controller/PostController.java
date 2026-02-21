@@ -4,7 +4,6 @@ import backend.backend.domain.dto.Response;
 import backend.backend.domain.dto.likesDto.LikesRequestDto;
 import backend.backend.domain.dto.postDto.PostRequestDto;
 import backend.backend.domain.dto.postDto.PostResponseDto;
-import backend.backend.global.response.ApiResponse;
 import backend.backend.global.util.security.SecurityUtil;
 import backend.backend.service.LikesService;
 import backend.backend.service.PostService;
@@ -21,16 +20,15 @@ public class PostController {
     private final LikesService likesService;
     private final PostService postService;
     @PostMapping("/{id}/like")
-    public ApiResponse<Void> likePost(@PathVariable Long id, @RequestBody LikesRequestDto likesRequestDto) {
+    public ResponseEntity<Response<Void>> likePost(@PathVariable Long id, @RequestBody LikesRequestDto likesRequestDto) {
         likesService.likePost(id, likesRequestDto);
-        return ApiResponse.success(null, "좋아요가 성공적으로 추가되었습니다.");
+        return ResponseEntity.ok(Response.ok("좋아요가 성공적으로 추가되었습니다."));
     }
 
     @DeleteMapping("/{id}/like")
-    public ApiResponse<Void> unlikePost(@PathVariable Long id, @RequestBody LikesRequestDto likesRequestDto) {
+    public ResponseEntity<Response<Void>> unlikePost(@PathVariable Long id, @RequestBody LikesRequestDto likesRequestDto) {
         likesService.unlikePost(id, likesRequestDto);
-        return ApiResponse.success(null, "좋아요가 성공적으로 취소되었습니다.");
-
+        return ResponseEntity.ok(Response.ok("좋아요가 성공적으로 취소되었습니다."));
     }
 
     @PostMapping()
@@ -41,19 +39,19 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response<PostResponseDto>> getPost(@PathVariable Long postId){
+    public ResponseEntity<Response<PostResponseDto>> getPost(@PathVariable("id") Long postId){
         return ResponseEntity.ok(Response.ok(postService.getPost(postId)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response<PostResponseDto>> updatePost(@PathVariable Long postId ,
+    public ResponseEntity<Response<PostResponseDto>> updatePost(@PathVariable("id") Long postId ,
                                                                 @RequestBody PostRequestDto requestDto){
         String memberEmail = SecurityUtil.getLoginEmail();
         return ResponseEntity.ok(Response.ok(postService.updatePost(postId, requestDto, memberEmail)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response<Void>> deletePost(@PathVariable Long postId){
+    public ResponseEntity<Response<Void>> deletePost(@PathVariable("id") Long postId){
         String memberEmail = SecurityUtil.getLoginEmail();
         return ResponseEntity.ok(postService.deletePost(postId, memberEmail));
 
