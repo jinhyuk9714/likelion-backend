@@ -40,7 +40,8 @@ public class MeetingService {
 
         // 목록 : id, title, content, author
         Page<MeetingResponseDTO.getListDTO> meetingResponseDto = postsPages.map(
-                postPage -> new MeetingResponseDTO.getListDTO(postPage.getTitle(),
+                postPage -> new MeetingResponseDTO.getListDTO(postPage.getId(),
+                        postPage.getTitle(),
                         postPage.getCategory(),
                         postPage.getWeek(),
                         postPage.getTime(),

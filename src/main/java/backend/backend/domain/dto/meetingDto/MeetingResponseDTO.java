@@ -9,7 +9,8 @@ import java.time.LocalTime;
 public class MeetingResponseDTO {
 
     @Builder
-    public record getListDTO (String title,
+    public record getListDTO (Long id,
+                                     String title,
                                      MeetingCategory category,
                                      Week week,
                                      LocalTime time,
