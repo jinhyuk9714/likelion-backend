@@ -6,6 +6,7 @@ import backend.backend.domain.dto.meetingDto.MeetingRequestDTO;
 import backend.backend.domain.dto.meetingDto.MeetingResponseDTO;
 import backend.backend.domain.enums.MeetingCategory;
 import backend.backend.service.MeetingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +30,7 @@ public class MeetingController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<Void>> postMeeting(@RequestBody MeetingRequestDTO.MeetingPostDto meetingPostDto) {
+    public ResponseEntity<Response<Void>> postMeeting(@Valid @RequestBody MeetingRequestDTO.MeetingPostDto meetingPostDto) {
         meetingService.post(meetingPostDto);
         return ResponseEntity.ok(Response.ok("모임이 생성되었습니다."));
     }
