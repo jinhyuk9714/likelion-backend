@@ -2,6 +2,8 @@ package backend.backend.domain;
 
 
 import backend.backend.domain.common.BaseEntity;
+import backend.backend.domain.common.BusinessException;
+import backend.backend.domain.common.ResponseCode;
 import backend.backend.domain.enums.MeetingCategory;
 import backend.backend.domain.enums.Week;
 import backend.backend.domain.mapping.MeetingMember;
@@ -49,6 +51,12 @@ public class Meeting extends BaseEntity {
     private List<MeetingMember> members = new ArrayList<>();
 
     public void join(Member member) {
+        if (members.stream().anyMatch(m -> m.getMember().getId().equals(member.getId()))) {
+            throw new BusinessException(ResponseCode.MTG_ALREADY_JOINED);
+        }
+        if (members.size() >= limitNumberOfPeople) {
+            throw new BusinessException(ResponseCode.MTG_CAPACITY_FULL);
+        }
         MeetingMember meetingMember = new MeetingMember(this, member);
         members.add(meetingMember);
     }

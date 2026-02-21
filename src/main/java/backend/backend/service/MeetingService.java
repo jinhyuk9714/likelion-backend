@@ -52,6 +52,9 @@ public class MeetingService {
 
     @Transactional
     public void post(MeetingRequestDTO.MeetingPostDto meetingPostDto) {
+        Member owner = memberRepository.findByEmail(SecurityUtil.getLoginEmail())
+                .orElseThrow(() -> new BusinessException(ResponseCode.MTG_AUTHENTICATION_FAIL));
+
         Meeting meeting = Meeting.builder()
                 .title(meetingPostDto.title())
                 .category(meetingPostDto.category())
@@ -59,6 +62,7 @@ public class MeetingService {
                 .time(meetingPostDto.time())
                 .limitNumberOfPeople(meetingPostDto.limitNumberOfPeople())
                 .description(meetingPostDto.description())
+                .owner(owner)
                 .build();
 
         meetingRepository.save(meeting);
@@ -86,6 +90,7 @@ public class MeetingService {
                 .numberOfParticipants(meeting.getMembers().size())
                 .description(meeting.getDescription())
                 .ownerId(meeting.getOwner().getId())
+                .ownerName(meeting.getOwner().getNickName())
                 .build();
     }
 }

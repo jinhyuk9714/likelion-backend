@@ -35,6 +35,8 @@ public enum ResponseCode {
     // 모임 : MTG
     MTG_AUTHENTICATION_FAIL(403, "MTG-101", "유저 인증에 실패했습니다.", HttpStatus.FORBIDDEN),
     MTG_NOT_FOUND(404, "MTG-201", "모임을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    MTG_ALREADY_JOINED(409, "MTG-301", "이미 참여한 모임입니다.", HttpStatus.CONFLICT),
+    MTG_CAPACITY_FULL(400, "MTG-302", "모임 정원이 초과되었습니다.", HttpStatus.BAD_REQUEST),
 
     // 회원 : MBR
     MBR_NOT_FOUND(404, "MBR-201", "회원을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
