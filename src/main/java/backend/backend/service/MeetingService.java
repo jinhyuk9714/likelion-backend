@@ -6,6 +6,8 @@ import backend.backend.domain.Member;
 import backend.backend.domain.dto.meetingDto.MeetingRequestDTO;
 import backend.backend.domain.dto.meetingDto.MeetingResponseDTO;
 import backend.backend.domain.enums.MeetingCategory;
+import backend.backend.domain.common.BusinessException;
+import backend.backend.domain.common.ResponseCode;
 import backend.backend.global.util.security.SecurityUtil;
 import backend.backend.repository.MeetingRepository;
 import backend.backend.repository.MemberRepository;
@@ -15,9 +17,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MeetingService {
 
     private final MemberRepository memberRepository;
@@ -45,22 +49,34 @@ public class MeetingService {
         return meetingResponseDto;
     }
 
+    @Transactional
     public void post(MeetingRequestDTO.MeetingPostDto meetingPostDto) {
-        Meeting meeting = meetingPostDto.toEntity();
+        Meeting meeting = Meeting.builder()
+                .title(meetingPostDto.title())
+                .category(meetingPostDto.category())
+                .week(meetingPostDto.week())
+                .time(meetingPostDto.time())
+                .limitNumberOfPeople(meetingPostDto.limitNumberOfPeople())
+                .description(meetingPostDto.description())
+                .build();
 
         meetingRepository.save(meeting);
     }
 
+    @Transactional
     public void joinMeeting(Long meetingId) {
 
-        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow();
-        Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow();
+        Meeting meeting = meetingRepository.findById(meetingId)
+                .orElseThrow(() -> new BusinessException(ResponseCode.MTG_NOT_FOUND));
+        Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail())
+                .orElseThrow(() -> new BusinessException(ResponseCode.MTG_AUTHENTICATION_FAIL));
 
         meeting.join(member);
     }
 
     public MeetingResponseDTO.getOneDTO getOne(Long meetingId) {
-        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow();
+        Meeting meeting = meetingRepository.findById(meetingId)
+                .orElseThrow(() -> new BusinessException(ResponseCode.MTG_NOT_FOUND));
         return MeetingResponseDTO.getOneDTO.builder()
                 .title(meeting.getTitle())
                 .week(meeting.getWeek())

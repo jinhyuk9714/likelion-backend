@@ -22,8 +22,7 @@ public class MeetingController {
     private final MeetingService meetingService;
 
     @GetMapping
-    public ResponseEntity getMeetingsList (@PageableDefault(page = 1) Pageable pageable, @RequestBody MeetingRequestDTO.MeetingGetDto meetingGetDto) {
-        MeetingCategory category = meetingGetDto.category();
+    public ResponseEntity getMeetingsList (@PageableDefault(page = 1) Pageable pageable, @RequestParam(required = false) MeetingCategory category) {
 
         Page<MeetingResponseDTO.getListDTO> meetings = meetingService.getList(pageable, category);
         return new ResponseEntity(meetings, HttpStatus.OK);

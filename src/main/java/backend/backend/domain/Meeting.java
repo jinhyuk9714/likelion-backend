@@ -44,12 +44,12 @@ public class Meeting extends BaseEntity {
     @JoinColumn(name = "owner")
     private Member owner;
 
+    @Builder.Default
     @OneToMany(mappedBy = "meeting")
     private List<MeetingMember> members = new ArrayList<>();
 
     public void join(Member member) {
         MeetingMember meetingMember = new MeetingMember(this, member);
         members.add(meetingMember);
-        this.members.add(meetingMember);
     }
 }

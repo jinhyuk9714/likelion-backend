@@ -4,11 +4,14 @@ import backend.backend.domain.Meeting;
 import backend.backend.domain.Member;
 import backend.backend.domain.common.BaseEntity;
 import jakarta.persistence.*;
-import lombok.RequiredArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.FetchType.LAZY;
 @Entity
-@RequiredArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MeetingMember extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

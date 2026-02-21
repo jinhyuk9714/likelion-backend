@@ -1,6 +1,5 @@
 package backend.backend.domain.dto.meetingDto;
 
-import backend.backend.domain.Meeting;
 import backend.backend.domain.enums.MeetingCategory;
 import backend.backend.domain.enums.Week;
 import jakarta.annotation.Nullable;
@@ -23,15 +22,5 @@ public class MeetingRequestDTO {
                                   LocalTime time,
                                   int limitNumberOfPeople,
                                   String description){
-        public Meeting toEntity(){
-            return Meeting.builder()
-                    .title(this.title)
-                    .category(this.category)
-                    .week(this.week)
-                    .time(this.time)
-                    .limitNumberOfPeople(this.limitNumberOfPeople)
-                    .description(this.description)
-                    .build();
-        }
     }
 }

@@ -62,19 +62,15 @@ public class JwtServiceImpl implements JwtService{
     @Override
     public void updateRefreshToken(String email, String refreshToken) {
         memberRepository.findByEmail(email)
-                .ifPresentOrElse(
-                        member -> member.updateRefreshToken(refreshToken),
-                        () -> new Exception("회원이 없습니다")
-                );
+                .orElseThrow(() -> new RuntimeException("회원이 없습니다"))
+                .updateRefreshToken(refreshToken);
     }
 
     @Override
     public void destroyRefreshToken(String email) {
         memberRepository.findByEmail(email)
-                .ifPresentOrElse(
-                        member -> member.destroyRefreshToken(),
-                        () -> new Exception("회원이 없습니다")
-                );
+                .orElseThrow(() -> new RuntimeException("회원이 없습니다"))
+                .destroyRefreshToken();
     }
 
     @Override
