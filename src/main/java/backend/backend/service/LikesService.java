@@ -5,7 +5,6 @@ import backend.backend.domain.Member;
 import backend.backend.domain.Post;
 import backend.backend.domain.common.BusinessException;
 import backend.backend.domain.common.ResponseCode;
-import backend.backend.domain.dto.likesDto.LikesRequestDto;
 import backend.backend.repository.LikesRepository;
 import backend.backend.repository.MemberRepository;
 import backend.backend.repository.PostRepository;
@@ -22,11 +21,11 @@ public class LikesService {
     private final PostRepository postRepository;
 
     @Transactional
-    public void likePost(Long id, LikesRequestDto likesRequestDTO) {
-        Member member = memberRepository.findById(likesRequestDTO.getMemberId())
+    public void likePost(Long postId, String memberEmail) {
+        Member member = memberRepository.findByEmail(memberEmail)
                 .orElseThrow(() -> new BusinessException(ResponseCode.LIK_MEMBER_NOT_FOUND));
 
-        Post post = postRepository.findById(id)
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(ResponseCode.LIK_POST_NOT_FOUND));
 
         if (likesRepository.findByMemberAndPost(member, post).isPresent()) {
@@ -34,16 +33,15 @@ public class LikesService {
         }
 
         Likes likes = new Likes(member, post);
-
         likesRepository.save(likes);
     }
 
     @Transactional
-    public void unlikePost(Long id, LikesRequestDto likesRequestDTO) {
-        Member member = memberRepository.findById(likesRequestDTO.getMemberId())
+    public void unlikePost(Long postId, String memberEmail) {
+        Member member = memberRepository.findByEmail(memberEmail)
                 .orElseThrow(() -> new BusinessException(ResponseCode.LIK_MEMBER_NOT_FOUND));
 
-        Post post = postRepository.findById(id)
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(ResponseCode.LIK_POST_NOT_FOUND));
 
         Likes like = likesRepository.findByMemberAndPost(member, post)

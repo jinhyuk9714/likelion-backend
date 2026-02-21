@@ -1,5 +1,7 @@
 package backend.backend.global.jwt;
 
+import backend.backend.domain.common.BusinessException;
+import backend.backend.domain.common.ResponseCode;
 import backend.backend.repository.MemberRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -14,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Transactional
@@ -62,38 +62,28 @@ public class JwtServiceImpl implements JwtService{
     @Override
     public void updateRefreshToken(String email, String refreshToken) {
         memberRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("회원이 없습니다"))
+                .orElseThrow(() -> new BusinessException(ResponseCode.MBR_NOT_FOUND))
                 .updateRefreshToken(refreshToken);
     }
 
     @Override
     public void destroyRefreshToken(String email) {
         memberRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("회원이 없습니다"))
+                .orElseThrow(() -> new BusinessException(ResponseCode.MBR_NOT_FOUND))
                 .destroyRefreshToken();
     }
 
     @Override
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken){
         response.setStatus(HttpServletResponse.SC_OK);
-
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
-
-
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put(ACCESS_TOKEN_SUBJECT, accessToken);
-        tokenMap.put(REFRESH_TOKEN_SUBJECT, refreshToken);
     }
 
     @Override
     public void sendAccessToken(HttpServletResponse response, String accessToken){
         response.setStatus(HttpServletResponse.SC_OK);
-
         setAccessTokenHeader(response, accessToken);
-
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put(ACCESS_TOKEN_SUBJECT, accessToken);
     }
 
     @Override
