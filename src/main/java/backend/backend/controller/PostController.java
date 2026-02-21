@@ -1,7 +1,6 @@
 package backend.backend.controller;
 
 import backend.backend.domain.dto.Response;
-import backend.backend.domain.dto.likesDto.LikesRequestDto;
 import backend.backend.domain.dto.postDto.PostRequestDto;
 import backend.backend.domain.dto.postDto.PostResponseDto;
 import backend.backend.global.util.security.SecurityUtil;
@@ -30,14 +29,16 @@ public class PostController {
     }
 
     @PostMapping("/{id}/like")
-    public ResponseEntity<Response<Void>> likePost(@PathVariable Long id, @RequestBody LikesRequestDto likesRequestDto) {
-        likesService.likePost(id, likesRequestDto);
+    public ResponseEntity<Response<Void>> likePost(@PathVariable Long id) {
+        String memberEmail = SecurityUtil.getLoginEmail();
+        likesService.likePost(id, memberEmail);
         return ResponseEntity.ok(Response.ok("좋아요가 성공적으로 추가되었습니다."));
     }
 
     @DeleteMapping("/{id}/like")
-    public ResponseEntity<Response<Void>> unlikePost(@PathVariable Long id, @RequestBody LikesRequestDto likesRequestDto) {
-        likesService.unlikePost(id, likesRequestDto);
+    public ResponseEntity<Response<Void>> unlikePost(@PathVariable Long id) {
+        String memberEmail = SecurityUtil.getLoginEmail();
+        likesService.unlikePost(id, memberEmail);
         return ResponseEntity.ok(Response.ok("좋아요가 성공적으로 취소되었습니다."));
     }
 

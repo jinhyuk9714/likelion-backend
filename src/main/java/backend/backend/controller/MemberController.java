@@ -1,5 +1,6 @@
 package backend.backend.controller;
 
+import backend.backend.domain.dto.Response;
 import backend.backend.domain.dto.memberDto.MemberRequestDto;
 import backend.backend.domain.dto.memberDto.MemberResponseDto;
 import backend.backend.service.MemberService;
@@ -16,23 +17,16 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    /**
-     * 회원가입
-     */
     @PostMapping("/signUp")
     @ResponseStatus(HttpStatus.OK)
     public void signUp(@Valid @RequestBody MemberRequestDto.SignUpDto memberSignUpDto) {
         memberService.signUp(memberSignUpDto);
     }
 
-    /**
-     * 내정보조회
-     */
     @GetMapping("/member")
-    public ResponseEntity getMyInfo() {
-
+    public ResponseEntity<Response<MemberResponseDto.InfoDto>> getMyInfo() {
         MemberResponseDto.InfoDto info = memberService.getMyInfo();
-        return new ResponseEntity(info, HttpStatus.OK);
+        return ResponseEntity.ok(Response.ok(info));
     }
 }
 
